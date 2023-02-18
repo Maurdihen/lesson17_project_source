@@ -96,10 +96,10 @@ class MoviesView(Resource):
 @movies_ns.route("/<int:mid>")
 class MovieView(Resource):
     def get(self, mid):
-        try:
+        if db.session.query(Movie).get(mid):
             movies = db.session.query(Movie).get(mid)
             return movie_schema.dump(movies), 200
-        except:
+        else:
             return "", 404
     def put(self, mid):
         movies = db.session.query(Movie).get(mid)
